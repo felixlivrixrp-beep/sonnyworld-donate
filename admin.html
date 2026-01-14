@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ панель - SonnyWorld</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Боковая панель -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-crown"></i>
+                <span>SonnyWorld Admin</span>
+            </div>
+            
+            <nav class="nav">
+                <a href="#dashboard" class="nav-link active">
+                    <i class="fas fa-chart-bar"></i> Дашборд
+                </a>
+                <a href="#orders" class="nav-link">
+                    <i class="fas fa-shopping-cart"></i> Заказы
+                </a>
+                <a href="#players" class="nav-link">
+                    <i class="fas fa-users"></i> Игроки
+                </a>
+                <a href="#settings" class="nav-link">
+                    <i class="fas fa-cog"></i> Настройки
+                </a>
+                <a href="#logs" class="nav-link">
+                    <i class="fas fa-clipboard-list"></i> Логи
+                </a>
+            </nav>
+            
+            <div class="admin-info">
+                <div class="admin-avatar">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="admin-name">Администратор</div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </button>
+            </div>
+        </div>
+        
+        <!-- Основной контент -->
+        <div class="main-content">
+            <!-- Дашборд -->
+            <div id="dashboard" class="content-section active">
+                <h1><i class="fas fa-chart-bar"></i> Дашборд</h1>
+                
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon income">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalIncome">0 ₽</h3>
+                            <p>Общий доход</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon orders">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalOrders">0</h3>
+                            <p>Всего заказов</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon players">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalPlayers">0</h3>
+                            <p>Уникальных игроков</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon today">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="todayIncome">0 ₽</h3>
+                            <p>Доход за сегодня</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- График дохода -->
+                <div class="chart-container">
+                    <h2>Доход за последние 7 дней</h2>
+                    <canvas id="incomeChart"></canvas>
+                </div>
+                
+                <!-- Последние заказы -->
+                <div class="recent-orders">
+                    <h2>Последние заказы</h2>
+                    <div class="orders-list" id="recentOrders">
+                        <div class="loading">Загрузка...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Заказы -->
+            <div id="orders" class="content-section">
+                <h1><i class="fas fa-shopping-cart"></i> Управление заказами</h1>
+                
+                <div class="filters">
+                    <select id="statusFilter" onchange="filterOrders()">
+                        <option value="all">Все статусы</option>
+                        <option value="pending">Ожидание</option>
+                        <option value="completed">Оплачено</option>
+                        <option value="issued">Выдано</option>
+                        <option value="error">Ошибка</option>
+                    </select>
+                    
+                    <input type="date" id="dateFilter" onchange="filterOrders()">
+                    
+                    <button class="btn-refresh" onclick="loadOrders()">
+                        <i class="fas fa-sync-alt"></i> Обновить
+                    </button>
+                </div>
+                
+                <div class="orders-table-container">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Игрок</th>
+                                <th>Привилегия</th>
+                                <th>Сумма</th>
+                                <th>Статус</th>
+                                <th>Дата</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTable">
+                            <tr>
+                                <td colspan="7" class="loading">Загрузка заказов...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Игроки -->
+            <div id="players" class="content-section">
+                <h1><i class="fas fa-users"></i> Игроки с донатом</h1>
+                
+                <div class="players-list" id="playersList">
+                    <div class="loading">Загрузка игроков...</div>
+                </div>
+            </div>
+            
+            <!-- Настройки -->
+            <div id="settings" class="content-section">
+                <h1><i class="fas fa-cog"></i> Настройки системы</h1>
+                
+                <div class="settings-grid">
+                    <div class="setting-card">
+                        <h3><i class="fas fa-wallet"></i> Платежные системы</h3>
+                        <div class="setting-item">
+                            <label>Кошелек ЮMoney</label>
+                            <input type="text" id="yoomoneyWallet" placeholder="410011...">
+                        </div>
+                        <div class="setting-item">
+                            <label>QIWI токен</label>
+                            <input type="password" id="qiwiToken" placeholder="Токен API">
+                        </div>
+                        <button class="btn-save" onclick="savePaymentSettings()">
+                            <i class="fas fa-save"></i> Сохранить
+                        </button>
+                    </div>
+                    
+                    <div class="setting-card">
+                        <h3><i class="fas fa-gamepad"></i> Настройки сервера</h3>
+                        <div class="setting-item">
+                            <label>RCON Host</label>
+                            <input type="text" id="rconHost" value="localhost">
+                        </div>
+                        <div class="setting-item">
+                            <label>RCON Port</label>
+                            <input type="number" id="rconPort" value="25575">
+                        </div>
+                        <div class="setting-item">
+                            <label>RCON Password</label>
+                            <input type="password" id="rconPassword">
+                        </div>
+                        <button class="btn-test" onclick="testRcon()">
+                            <i class="fas fa-test"></i> Тест подключения
+                        </button>
+                    </div>
+                    
+                    <div class="setting-card">
+                        <h3><i class="fab fa-discord"></i> Discord Webhook</h3>
+                        <div class="setting-item">
+                            <label>URL Webhook</label>
+                            <input type="text" id="discordWebhook" placeholder="https://discord.com/api/webhooks/...">
+                        </div>
+                        <button class="btn-test" onclick="testDiscord()">
+                            <i class="fab fa-discord"></i> Тест отправки
+                        </button>
+                    </div>
+                    
+                    <div class="setting-card">
+                        <h3><i class="fas fa-shield-alt"></i> Безопасность</h3>
+                        <div class="setting-item">
+                            <label>Пароль админки</label>
+                            <input type="password" id="adminPassword">
+                        </div>
+                        <div class="setting-item">
+                            <label>IP Whitelist</label>
+                            <textarea id="ipWhitelist" placeholder="192.168.1.1\n127.0.0.1"></textarea>
+                        </div>
+                        <button class="btn-save" onclick="saveSecuritySettings()">
+                            <i class="fas fa-save"></i> Сохранить
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Логи -->
+            <div id="logs" class="content-section">
+                <h1><i class="fas fa-clipboard-list"></i> Логи системы</h1>
+                
+                <div class="logs-controls">
+                    <select id="logType">
+                        <option value="all">Все логи</option>
+                        <option value="payment">Платежи</option>
+                        <option value="issue">Выдача</option>
+                        <option value="error">Ошибки</option>
+                    </select>
+                    
+                    <button class="btn-clear" onclick="clearLogs()">
+                        <i class="fas fa-trash"></i> Очистить логи
+                    </button>
+                    
+                    <button class="btn-export" onclick="exportLogs()">
+                        <i class="fas fa-download"></i> Экспорт
+                    </button>
+                </div>
+                
+                <div class="logs-container">
+                    <div class="log-list" id="logList">
+                        <div class="log-entry">
+                            <span class="log-time">[12:34:56]</span>
+                            <span class="log-type info">[INFO]</span>
+                            <span class="log-message">Система запущена</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Скрипты -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="config.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
