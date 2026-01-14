@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SonnyWorld | Официальный донат</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ОСНОВНЫЕ СТИЛИ */
+        :root {
+            --primary: #FF6B35; /* Оранжевый SonnyWorld */
+            --secondary: #2A9D8F; /* Зеленый */
+            --dark: #264653;
+            --light: #F4F1DE;
+            --accent: #E76F51;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* ШАПКА */
+        .header {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            color: var(--primary);
+            font-size: 32px;
+        }
+        
+        .logo-text {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(45deg, #FF6B35, #FF9E6D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(255, 107, 53, 0.3);
+        }
+        
+        .server-ip {
+            background: rgba(255, 107, 53, 0.2);
+            padding: 8px 20px;
+            border-radius: 25px;
+            border: 1px solid var(--primary);
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+        
+        /* ГЛАВНЫЙ ЭКРАН */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=2000') center/cover;
+            position: relative;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(26, 26, 46, 0.85);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        
+        /* КАРТОЧКИ ДОНАТОВ */
+        .donates {
+            padding: 60px 0;
+        }
+        
+        .donate-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .donate-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .donate-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(255, 107, 53, 0.2);
+        }
+        
+        .card-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .card-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .price {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            gap: 5px;
+        }
+        
+        .price-free {
+            color: #2A9D8F;
+            font-size: 36px;
+        }
+        
+        .currency {
+            font-size: 24px;
+            color: #aaa;
+        }
+        
+        .features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        .features li {
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .features i {
+            color: var(--primary);
+            width: 20px;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .btn-buy {
+            background: linear-gradient(45deg, var(--primary), #FF9E6D);
+            color: white;
+        }
+        
+        .btn-buy:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 107, 53, 0.4);
+        }
+        
+        .btn-free {
+            background: rgba(42, 157, 143, 0.2);
+            color: #2A9D8F;
+            border: 2px solid #2A9D8F;
+        }
+        
+        .btn-free:hover {
+            background: rgba(42, 157, 143, 0.3);
+        }
+        
+        .badge {
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: var(--primary);
+            color: white;
+            padding: 5px 30px;
+            transform: rotate(45deg);
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        /* ФОРМА ОПЛАТЫ */
+        .payment-form {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 40px auto;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #aaa;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        /* СТАТИСТИКА */
+        .stats {
+            padding: 60px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        /* ПОДВАЛ */
+        .footer {
+            background: rgba(26, 26, 46, 0.95);
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 3px solid var(--primary);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 24px;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* МОДАЛЬНОЕ ОКНО */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            border: 2px solid var(--primary);
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 28px;
+            color: white;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        
+        /* ТЕЛЕГРАМ ОПЛАТА */
+        .telegram-payment {
+            background: rgba(0, 136, 204, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 1px solid rgba(0, 136, 204, 0.3);
+        }
+        
+        .telegram-payment a {
+            display: inline-block;
+            background: #0088cc;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        /* АДАПТИВ */
+        @media (max-width: 768px) {
+            h1 { font-size: 36px; }
+            .header-content { flex-direction: column; gap: 15px; }
+            .donate-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 28px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .payment-form { padding: 20px; }
+        }
+        
+        /* АНИМАЦИИ */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        /* СКРОЛЛБАР */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- ШАПКА -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-crown logo-icon"></i>
+                    <div class="logo-text">SonnyWorld</div>
+                </div>
+                <div class="server-ip">
+                    IP: sonnyworld.net
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ГЛАВНЫЙ ЭКРАН -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1 class="animate">Донат для SonnyWorld</h1>
+            <p class="subtitle animate">Поддержи сервер и получи уникальные привилегии! Привилегия выдаётся автоматически в течение 5 минут после оплаты.</p>
+            
+            <div class="stats-grid" style="max-width: 800px; margin: 0 auto;">
+                <div class="stat-card animate">
+                    <i class="fas fa-users stat-icon"></i>
+                    <span class="stat-number" id="onlineCount">127</span>
+                    <span class="stat-label">игроков онлайн</span>
+                </div>
+                <div class="stat-card animate">
+                    <i class="fas fa-heart stat-icon"></i>
+                    <span class="stat-number" id="donateCount">384</span>
+                    <span class="stat-label">куплено донатов</span>
+                </div>
+                <div class="stat-card animate">
+                    <i class="fas fa-bolt stat-icon"></i>
+                    <span class="stat-number">99.8%</span>
+                    <span class="stat-label">аптайм сервера</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ДОНАТ ПРИВИЛЕГИИ -->
+    <section class="donates container">
+        <h2 style="text-align: center; font-size: 36px; margin-bottom: 10px;">Выбери привилегию</h2>
+        <p style="text-align: center; color: #aaa; margin-bottom: 40px;">Все покупки идут на развитие сервера</p>
+        
+        <div class="donate-grid">
+            <!-- D.HELPER - БЕСПЛАТНО -->
+            <div class="donate-card animate">
+                <div class="badge" style="background: #2A9D8F;">БЕСПЛАТНО</div>
+                <div class="card-header">
+                    <div class="card-title">D.Helper</div>
+                    <div class="price">
+                        <span class="price-free">Бесплатно</span>
+                    </div>
+                </div>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> Префикс [D.Helper]</li>
+                    <li><i class="fas fa-check"></i> Цветной ник в чате</li>
+                    <li><i class="fas fa-check"></i> Доступ к /hat</li>
+                    <li><i class="fas fa-check"></i> 2 слота для варпов</li>
+                    <li><i class="fas fa-check"></i> Возможность телепортации</li>
+                </ul>
+                <button class="btn btn-free" onclick="showFreeModal()">
+                    <i class="fas fa-gift"></i> Получить бесплатно
+                </button>
+            </div>
+
+            <!-- HELPER - 1 РУБЛЬ -->
+            <div class="donate-card animate">
+                <div class="badge" style="background: var(--primary);">ТОП</div>
+                <div class="card-header">
+                    <div class="card-title">Helper</div>
+                    <div class="price">
+                        <span class="currency">₽</span>
+                        <span class="price-value">1</span>
+                    </div>
+                </div>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> Все из D.Helper</li>
+                    <li><i class="fas fa-check"></i> Префикс [Helper]</li>
+                    <li><i class="fas fa-check"></i> Команда /tpa</li>
+                    <li><i class="fas fa-check"></i> 5 слотов для варпов</li>
+                    <li><i class="fas fa-check"></i> Полёт в лобби</li>
+                    <li><i class="fas fa-check"></i> Доступ к /fix</li>
+                </ul>
+                <button class="btn btn-buy" onclick="selectDonate('Helper', 1)">
+                    <i class="fas fa-shopping-cart"></i> Купить за 1 рубль
+                </button>
+            </div>
+
+            <!-- MODER -->
+            <div class="donate-card animate">
+                <div class="card-header">
+                    <div class="card-title">Moder</div>
+                    <div class="price">
+                        <span class="currency">₽</span>
+                        <span class="price-value">299</span>
+                    </div>
+                </div>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> Все из Helper</li>
+                    <li><i class="fas fa-check"></i> Префикс [Moder]</li>
+                    <li><i class="fas fa-check"></i> Модераторские команды</li>
+                    <li><i class="fas fa-check"></i> 15 слотов для варпов</li>
+                    <li><i class="fas fa-check"></i> Невидимость в лобби</li>
+                    <li><i class="fas fa-check"></i> Доступ к Vanish</li>
+                </ul>
+                <button class="btn btn-buy" onclick="selectDonate('Moder', 299)">
+                    <i class="fas fa-shopping-cart"></i> Купить за 299 ₽
+                </button>
+            </div>
+
+            <!-- ML.ADMIN -->
+            <div class="donate-card animate">
+                <div class="card-header">
+                    <div class="card-title">Ml.Admin</div>
+                    <div class="price">
+                        <span class="currency">₽</span>
+                        <span class="price-value">599</span>
+                    </div>
+                </div>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> Все из Moder</li>
+                    <li><i class="fas fa-check"></i> Префикс [Ml.Admin]</li>
+                    <li><i class="fas fa-check"></i> Админ команды</li>
+                    <li><i class="fas fa-check"></i> 30 слотов для варпов</li>
+                    <li><i class="fas fa-check"></i> Доступ к Creative миру</li>
+                    <li><i class="fas fa-check"></i> Личные плагины</li>
+                </ul>
+                <button class="btn btn-buy" onclick="selectDonate('Ml.Admin', 599)">
+                    <i class="fas fa-shopping-cart"></i> Купить за 599 ₽
+                </button>
+            </div>
+
+            <!-- ADMIN -->
+            <div class="donate-card animate">
+                <div class="badge" style="background: #E76F51;">ВЫГОДА</div>
+                <div class="card-header">
+                    <div class="card-title">Admin</div>
+                    <div class="price">
+                        <span class="currency">₽</span>
+                        <span class="price-value">999</span>
+                    </div>
+                </div>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> Все из Ml.Admin</li>
+                    <li><i class="fas fa-check"></i> Полные админ права</li>
+                    <li><i class="fas fa-check"></i> Префикс [Admin]</li>
+                    <li><i class="fas fa-check"></i> Неограниченные варпы</li>
+                    <li><i class="fas fa-check"></i> Личный Creative остров</li>
+                    <li><i class="fas fa-check"></i> Золотая метка в табе</li>
+                </ul>
+                <button class="btn btn-buy" onclick="selectDonate('Admin', 999)">
+                    <i class="fas fa-crown"></i> Купить за 999 ₽
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ФОРМА ОПЛАТЫ -->
+    <section class="container" id="paymentSection" style="display: none;">
+        <div class="payment-form animate">
+            <h2 style="text-align: center; margin-bottom: 30px; color: white;">
+                <i class="fas fa-credit-card"></i> Оформление доната
+            </h2>
+            
+            <div id="selectedDonate" style="background: rgba(255,107,53,0.1); padding: 20px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid var(--primary);">
+                <h3 style="color: var(--primary);" id="selectedTitle">Выберите привилегию</h3>
+                <p id="selectedPrice">Нажмите на кнопку "Купить" выше</p>
+            </div>
+            
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label for="nickname"><i class="fas fa-user"></i> Твой ник в игре</label>
+                    <input type="text" id="nickname" placeholder="Например: SonnyPlayer" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email (для чека)</label>
+                    <input type="email" id="email" placeholder="example@gmail.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-mobile-alt"></i> Способ оплаты</label>
+                    <div style="display: flex; gap: 15px; margin-top: 10px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="radio" name="payment" value="telegram" checked>
+                            <i class="fab fa-telegram" style="color: #0088cc;"></i> Telegram
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="radio" name="payment" value="card">
+                            <i class="fas fa-credit-card"></i> Карта
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- ТЕЛЕГРАМ ОПЛАТА -->
+                <div class="telegram-payment" id="telegramPayment">
+                    <h4 style="color: #0088cc; margin-bottom: 10px;">
+                        <i class="fab fa-telegram"></i> Оплата через Telegram
+                    </h4>
+                    <p>1. Нажмите кнопку ниже</p>
+                    <p>2. В боте выберите сумму и оплатите</p>
+                    <p>3. Привилегия выдастся автоматически</p>
+                    <a href="https://t.me/sonnyworld_bot?start=donate" target="_blank" id="telegramLink">
+                        <i class="fab fa-telegram"></i> Перейти к оплате в Telegram
+                    </a>
+                </div>
+                
+                <div style="margin: 25px 0; padding: 15px; background: rgba(42,157,143,0.1); border-radius: 10px; border: 1px solid rgba(42,157,143,0.3);">
+                    <label style="display: flex; align-items: start; gap: 10px; cursor: pointer;">
+                        <input type="checkbox" id="agree" style="margin-top: 3px;" required>
+                        <span>Я согласен с <a href="#" style="color: var(--primary);">правилами сервера</a> и подтверждаю, что мой никнейм указан верно</span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-buy" style="font-size: 20px;">
+                    <i class="fas fa-lock"></i> Перейти к оплате
+                </button>
+                
+                <p style="text-align: center; margin-top: 20px; color: #aaa; font-size: 14px;">
+                    <i class="fas fa-shield-alt"></i> Безопасная оплата • Выдача за 5 минут • Поддержка 24/7
+                </p>
+            </form>
+        </div>
+    </section>
+
+    <!-- СТАТИСТИКА СЕРВЕРА -->
+    <section class="stats container">
+        <h2 style="text-align: center; font-size: 36px; margin-bottom: 10px;">Статистика SonnyWorld</h2>
+        <p style="text-align: center; color: #aaa; margin-bottom: 40px;">Реальная информация о сервере</p>
+        
+        <div class="stats-grid">
+            <div class="stat-card animate">
+                <i class="fas fa-gamepad stat-icon"></i>
+                <span class="stat-number">1,842</span>
+                <span class="stat-label">всего игроков</span>
+            </div>
+            <div class="stat-card animate">
+                <i class="fas fa-chart-line stat-icon"></i>
+                <span class="stat-number">256</span>
+                <span class="stat-label">макс. онлайн</span>
+            </div>
+            <div class="stat-card animate">
+                <i class="fas fa-clock stat-icon"></i>
+                <span class="stat-number">68 дн.</span>
+                <span class="stat-label">время работы</span>
+            </div>
+            <div class="stat-card animate">
+                <i class="fas fa-tachometer-alt stat-icon"></i>
+                <span class="stat-number">20 TPS</span>
+                <span class="stat-label">производительность</span>
+            </div>
+        </div>
+        
+        <!-- ОНЛАЙН ИГРОКИ -->
+        <div style="background: rgba(255,255,255,0.05); padding: 25px; border-radius: 15px; margin-top: 40px;">
+            <h3 style="margin-bottom: 20px; color: white;">
+                <i class="fas fa-users"></i> Сейчас онлайн
+            </h3>
+            <div id="onlinePlayers" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <!-- Игроки загружаются через JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ПОДВАЛ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="logo" style="margin-bottom: 20px;">
+                        <i class="fas fa-crown logo-icon"></i>
+                        <div class="logo-text">SonnyWorld</div>
+                    </div>
+                    <p>Лучший Minecraft сервер с 2023 года</p>
+                    <p>Версия: 1.16 - 1.20</p>
+                </div>
+                
+                <div>
+                    <h4 style="margin-bottom: 20px; color: white;">Контакты</h4>
+                    <p><i class="fas fa-envelope"></i> support@sonnyworld.net</p>
+                    <p><i class="fas fa-globe"></i> sonnyworld.net</p>
+                    
+                    <div class="social-links">
+                        <a href="https://t.me/sonnyworld" target="_blank"><i class="fab fa-telegram"></i></a>
+                        <a href="https://vk.com/sonnyworld" target="_blank"><i class="fab fa-vk"></i></a>
+                        <a href="https://discord.gg/sonnyworld" target="_blank"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 style="margin-bottom: 20px; color: white;">Помощь</h4>
+                    <p><a href="#" style="color: #aaa; text-decoration: none;">Как получить донат?</a></p>
+                    <p><a href="#" style="color: #aaa; text-decoration: none;">Правила сервера</a></p>
+                    <p><a href="#" style="color: #aaa; text-decoration: none;">Возврат средств</a></p>
+                    <p><a href="#" style="color: #aaa; text-decoration: none;">Техподдержка</a></p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); color: #666;">
+                <p>© 2024 SonnyWorld. Все права защищены. Minecraft является товарным знаком Mojang AB.</p>
+                <p style="font-size: 12px; margin-top: 10px;">Это демо-версия сайта. Для реальной оплаты настройте платежную систему.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- МОДАЛЬНОЕ ОКНО ДЛЯ БЕСПЛАТНОГО ДОНАТА -->
+    <div class="modal" id="freeModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">×</button>
+            <h2 style="color: var(--primary); margin-bottom: 20px;">
+                <i class="fas fa-gift"></i> Получить D.Helper бесплатно
+            </h2>
+            
+            <p style="margin-bottom: 25px; color: #aaa;">
+                Для получения бесплатной привилегии заполните форму. Привилегия выдаётся после проверки.
+            </p>
+            
+            <div class="form-group">
+                <label for="freeNickname"><i class="fas fa-user"></i> Твой ник в игре</label>
+                <input type="text" id="freeNickname" placeholder="Введи свой ник">
+            </div>
+            
+            <div class="form-group">
+                <label for="freeEmail"><i class="fas fa-envelope"></i> Email для подтверждения</label>
+                <input type="email" id="freeEmail" placeholder="example@gmail.com">
+            </div>
+            
+            <button class="btn btn-free" onclick="getFreeDonate()" style="width: 100%;">
+                <i class="fas fa-download"></i> Получить привилегию
+            </button>
+            
+            <p style="text-align: center; margin-top: 20px; color: #666; font-size: 14px;">
+                Выдача происходит вручную администрацией в течение 24 часов
+            </p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // ДАННЫЕ СЕРВЕРА
+        let selectedDonateName = '';
+        let selectedDonatePrice = 0;
+        let totalDonates = 384;
+        
+        // ИГРОКИ ОНЛАЙН (ДЕМО)
+        const demoPlayers = [
+            "Sonny", "Alex", "Steve", "Notch", "Hero", "Player", "Miner", 
+            "Builder", "Crafter", "Farmer", "Warrior", "Mage", "Archer",
+            "Ninja", "Samurai", "Knight", "Wizard", "Dragon", "Phoenix"
+        ];
+        
+        // ЗАГРУЗКА СТРАНИЦЫ
+        document.addEventListener('DOMContentLoaded', function() {
+            updateOnlinePlayers();
+            updateStats();
+            
+            // Форма оплаты
+            document.getElementById('paymentForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                processPayment();
+            });
+            
+            // Обновление каждые 30 секунд
+            setInterval(updateOnlinePlayers, 30000);
+            setInterval(updateStats, 45000);
+        });
+        
+        // ВЫБОР ДОНАТА
+        function selectDonate(name, price) {
+            selectedDonateName = name;
+            selectedDonatePrice = price;
+            
+            // Обновляем информацию
+            document.getElementById('selectedTitle').textContent = name;
+            document.getElementById('selectedPrice').textContent = `Стоимость: ${price} ₽`;
+            
+            // Обновляем ссылку Telegram
+            const nickname = document.getElementById('nickname').value || 'Игрок';
+            const telegramLink = document.getElementById('telegramLink');
+            telegramLink.href = `https://t.me/sonnyworld_bot?start=donate_${name}_${price}_${encodeURIComponent(nickname)}`;
+            
+            // Показываем форму
+            document.getElementById('paymentSection').style.display = 'block';
+            document.getElementById('paymentSection').scrollIntoView({ behavior: 'smooth' });
+            
+            // Обновляем кнопку
+            const submitBtn = document.querySelector('#paymentForm button[type="submit"]');
+            submitBtn.innerHTML = `<i class="fas fa-lock"></i> Оплатить ${price} ₽`;
+        }
+        
+        // ПОКАЗАТЬ МОДАЛКУ БЕСПЛАТНОГО ДОНАТА
+        function showFreeModal() {
+            document.getElementById('freeModal').style.display = 'flex';
+        }
+        
+        // ЗАКРЫТЬ МОДАЛКУ
+        function closeModal() {
+            document.getElementById('freeModal').style.display = 'none';
+        }
+        
+        // ПОЛУЧИТЬ БЕСПЛАТНЫЙ ДОНАТ
+        function getFreeDonate() {
+            const nickname = document.getElementById('freeNickname').value;
+            const email = document.getElementById('freeEmail').value;
+            
+            if (!nickname || !email) {
+                alert('Заполни все поля!');
+                return;
+            }
+            
+            // Симуляция отправки
+            alert(`✅ Заявка на D.Helper для ${nickname} отправлена!\n\nПривилегия будет выдана в течение 24 часов после проверки.\nНа ${email} придет подтверждение.`);
+            
+            // Обновляем статистику
+            totalDonates++;
+            updateStats();
+            
+            // Закрываем модалку
+            closeModal();
+            
+            // Очищаем форму
+            document.getElementById('freeNickname').value = '';
+            document.getElementById('freeEmail').value = '';
+        }
+        
+        // ОБРАБОТКА ОПЛАТЫ
+        function processPayment() {
+            const nickname = document.getElementById('nickname').value;
+            const email = document.getElementById('email').value;
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+            
+            if (!nickname || !email) {
+                alert('Заполни все поля формы!');
+                return;
+            }
+            
+            if (!selectedDonateName) {
+                alert('Сначала выбери привилегию!');
+                return;
+            }
+            
+            // Если выбран Telegram
+            if (paymentMethod === 'telegram') {
+                window.open(`https://t.me/sonnyworld_bot?start=donate_${selectedDonateName}_${selectedDonatePrice}_${encodeURIComponent(nickname)}`, '_blank');
+                alert(`✅ Открываю Telegram для оплаты ${selectedDonatePrice} ₽\n\nПосле оплаты в боте привилегия ${selectedDonateName} будет выдана игроку ${nickname} в течение 5 минут.`);
+            } else {
+                // Симуляция оплаты картой
+                alert(`💳 Тестовая оплата картой: ${selectedDonatePrice} ₽\n\nВ реальном сайте здесь будет платежная система.\nПривилегия: ${selectedDonateName}\nИгрок: ${nickname}`);
+            }
+            
+            // Обновляем статистику
+            totalDonates++;
+            updateStats();
+            
+            // Сбрасываем форму
+            document.getElementById('nickname').value = '';
+            document.getElementById('email').value = '';
+            
+            // Скрываем форму
+            document.getElementById('paymentSection').style.display = 'none';
+            
+            // Показываем сообщение
+            setTimeout(() => {
+                alert(`🎉 Спасибо за поддержку SonnyWorld!\n\nПривилегия "${selectedDonateName}" будет выдана ${nickname} в ближайшее время. Чек отправлен на ${email}`);
+            }, 1000);
+        }
+        
+        // ОБНОВЛЕНИЕ ОНЛАЙН ИГРОКОВ
+        function updateOnlinePlayers() {
+            const container = document.getElementById('onlinePlayers');
+            const onlineCount = Math.floor(Math.random() * 10) + 120; // 120-130 онлайн
+            
+            // Обновляем счетчик
+            document.getElementById('onlineCount').textContent = onlineCount;
+            
+            // Показываем случайных игроков
+            let html = '';
+            const shuffled = [...demoPlayers].sort(() => Math.random() - 0.5);
+            const showCount = Math.min(20, shuffled.length);
+            
+            for (let i = 0; i < showCount; i++) {
+                html += `<span style="background: rgba(255,107,53,0.2); padding: 8px 15px; border-radius: 20px; border: 1px solid rgba(255,107,53,0.3);">${shuffled[i]}</span>`;
+            }
+            
+            html += `<span style="background: rgba(42,157,143,0.2); padding: 8px 15px; border-radius: 20px; border: 1px solid rgba(42,157,143,0.3);">и еще ${onlineCount - showCount} игроков...</span>`;
+            
+            container.innerHTML = html;
+        }
+        
+        // ОБНОВЛЕНИЕ СТАТИСТИКИ
+        function updateStats() {
+            // Онлайн
+            const newOnline = Math.floor(Math.random() * 10) + 120;
+            document.getElementById('onlineCount').textContent = newOnline;
+            
+            // Донаты
+            document.getElementById('donateCount').textContent = totalDonates;
+            
+            // Анимируем
+            document.querySelectorAll('.stat-number').forEach(el => {
+                el.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    el.style.transform = 'scale(1)';
+                }, 300);
+            });
+        }
+        
+        // КЛИК ВНЕ МОДАЛКИ
+        window.onclick = function(event) {
+            const modal = document.getElementById('freeModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
