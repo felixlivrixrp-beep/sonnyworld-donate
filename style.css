@@ -1,0 +1,475 @@
+:root {
+    --primary: #FF6B35;
+    --secondary: #2A9D8F;
+    --dark: #1a1a2e;
+    --light: #f8f9fa;
+    --success: #28a745;
+    --danger: #dc3545;
+    --warning: #ffc107;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: white;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Уведомление */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--success);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    display: none;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+/* Шапка */
+.header {
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--primary);
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    gap: 10px;
+}
+
+.logo i {
+    color: var(--primary);
+    font-size: 28px;
+}
+
+.server-ip {
+    background: rgba(255,107,53,0.2);
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 1px solid var(--primary);
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.admin-link {
+    color: white;
+    text-decoration: none;
+    background: var(--secondary);
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.admin-link:hover {
+    background: #238f7a;
+}
+
+/* Главный экран */
+.hero {
+    text-align: center;
+    padding: 80px 0;
+    background: linear-gradient(rgba(26,26,46,0.9), rgba(26,26,46,0.9)), 
+                url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=2000');
+    background-size: cover;
+    background-position: center;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.subtitle {
+    font-size: 20px;
+    color: #aaa;
+    margin-bottom: 40px;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 40px;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat i {
+    font-size: 40px;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.stat span {
+    display: block;
+    font-size: 36px;
+    font-weight: bold;
+    color: white;
+}
+
+.stat small {
+    color: #aaa;
+    font-size: 14px;
+}
+
+/* Карточки доната */
+.donates {
+    padding: 80px 0;
+}
+
+.donates h2 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 50px;
+    color: white;
+}
+
+.donate-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.donate-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 15px;
+    padding: 30px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.donate-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 15px 30px rgba(255,107,53,0.2);
+}
+
+.donate-card.free {
+    border-color: var(--secondary);
+}
+
+.donate-card.premium {
+    border-color: var(--warning);
+}
+
+.card-badge {
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    background: var(--primary);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.donate-card.free .card-badge {
+    background: var(--secondary);
+}
+
+.donate-card h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.price {
+    font-size: 42px;
+    font-weight: bold;
+    color: var(--primary);
+    margin: 20px 0;
+}
+
+.donate-card ul {
+    list-style: none;
+    margin: 25px 0;
+}
+
+.donate-card li {
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.donate-card li i {
+    color: var(--secondary);
+}
+
+.btn-buy, .btn-free {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 20px;
+}
+
+.btn-buy {
+    background: linear-gradient(45deg, var(--primary), #ff8c5a);
+    color: white;
+}
+
+.btn-buy:hover {
+    background: linear-gradient(45deg, #e55a2b, #ff7b42);
+    transform: scale(1.05);
+}
+
+.btn-free {
+    background: rgba(42,157,143,0.2);
+    color: var(--secondary);
+    border: 2px solid var(--secondary);
+}
+
+.btn-free:hover {
+    background: rgba(42,157,143,0.3);
+}
+
+/* Форма оплаты */
+.payment-section {
+    padding: 60px 0;
+}
+
+.payment-form {
+    max-width: 600px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.05);
+    padding: 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.payment-form h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.selected-donate {
+    background: rgba(255,107,53,0.1);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    border-left: 4px solid var(--primary);
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: #aaa;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 15px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.payment-method {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.payment-method:hover {
+    border-color: var(--primary);
+    background: rgba(255,107,53,0.05);
+}
+
+.payment-method img {
+    height: 24px;
+}
+
+.terms {
+    margin: 25px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.terms a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.btn-pay {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(45deg, var(--secondary), #34c9a8);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-pay:hover {
+    background: linear-gradient(45deg, #238f7a, #2ab598);
+    transform: scale(1.02);
+}
+
+/* Футер */
+.footer {
+    background: rgba(26,26,46,0.95);
+    padding: 40px 0;
+    margin-top: 60px;
+    border-top: 3px solid var(--primary);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+}
+
+.footer h3 {
+    margin-bottom: 20px;
+    color: white;
+}
+
+.social {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.social a {
+    color: white;
+    font-size: 24px;
+    transition: 0.3s;
+}
+
+.social a:hover {
+    color: var(--primary);
+}
+
+.footer a {
+    color: #aaa;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer a:hover {
+    color: white;
+}
+
+/* Модальное окно */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 40px;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 90%;
+    border: 2px solid var(--primary);
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .stats {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .donate-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+}
